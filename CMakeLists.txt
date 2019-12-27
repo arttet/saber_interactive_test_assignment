@@ -10,6 +10,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(WITH_TESTS "Build tests" OFF)
 
+if (MSVC)
+  add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wextra -pedantic -Werror)
+endif()
+
 add_subdirectory(3rd_party)
 
 add_subdirectory(assignment_1st)

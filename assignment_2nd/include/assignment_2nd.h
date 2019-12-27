@@ -3,26 +3,34 @@
 #include <cstdio>
 #include <string>
 
-struct list_node_t final
+struct ListNode final
 {
-    list_node_t * prev;
-    list_node_t * next;
-    list_node_t * rand;
+    ListNode * prev{ nullptr };
+    ListNode * next{ nullptr };
+    ListNode * rand{ nullptr };
     std::string data;
 };
 
-struct list_t final
+class List final
 {
-    explicit list_t() noexcept;
-    ~list_t();
+public:
+    explicit List() noexcept;
+    List(List && other) noexcept;
+    ~List();
 
-    void serialize(FILE * file);
-    void deserialize(FILE * file);
+    void Serialize(FILE * file) const;
+    void Deserialize(FILE * file);
 
-    void push_back(list_node_t && val);
+    void swap(List & other) noexcept;
+    void push_back(std::string && value);
+
+    ListNode const * get_head() const noexcept;
+    int get_count() const noexcept;
 
 private:
-    list_node_t * head_;
-    list_node_t * tail_;
-    int count_;
+    ListNode * head;
+    ListNode * tail;
+    int count;
 };
+
+bool operator==(List const& lhs, List const& rhs);
