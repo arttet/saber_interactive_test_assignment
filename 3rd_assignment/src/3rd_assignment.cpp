@@ -3,7 +3,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-// https://stackoverflow.com/questions/45477806/general-method-for-calculating-smooth-vertex-normals-with-100-smoothness
 void calc_mesh_normals(glm::vec3 * normals,           //
                        glm::vec3 const * const verts, //
                        int const * const faces,       //
