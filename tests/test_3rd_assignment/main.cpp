@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <assignment_3rd.h>
+#include <3rd_assignment.h>
 
 #include <glm/glm.hpp>
 

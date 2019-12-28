@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <assignment_2nd.h>
+#include <2nd_assignment.h>
 
 #include <cstdio>
 #include <unordered_map>

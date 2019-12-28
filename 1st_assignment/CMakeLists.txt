@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
-project(assignment_1st)
+project(1st_assignment)
 
 add_library(${PROJECT_NAME} INTERFACE)
 

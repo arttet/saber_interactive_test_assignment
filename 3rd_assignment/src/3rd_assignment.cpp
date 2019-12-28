@@ -1,4 +1,4 @@
-#include <assignment_3rd.h>
+#include <3rd_assignment.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>

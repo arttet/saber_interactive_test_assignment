@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <assignment_1st.h>
+#include <1st_assignment.h>
 
 #include <bitset>
 #include <cstdint>

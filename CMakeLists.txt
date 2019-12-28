@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
-project(test_assignment VERSION 0.0.0 LANGUAGES CXX)
+project(test_assignment VERSION 1.0.0 LANGUAGES CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -19,9 +19,9 @@ endif()
 
 add_subdirectory(3rd_party)
 
-add_subdirectory(assignment_1st)
-add_subdirectory(assignment_2nd)
-add_subdirectory(assignment_3rd)
+add_subdirectory(1st_assignment)
+add_subdirectory(2nd_assignment)
+add_subdirectory(3rd_assignment)
 
 if (WITH_TESTS)
   enable_testing()
