@@ -28,6 +28,7 @@ git submodule update --init
 * Run the following commands:
 
 ```sh
+cd saber_interactive_test_assignment
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ../
