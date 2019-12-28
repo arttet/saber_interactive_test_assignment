@@ -24,6 +24,7 @@ public:
     void swap(List & other) noexcept;
     void push_back(std::string && value);
 
+    ListNode * get_head() noexcept;
     ListNode const * get_head() const noexcept;
     int get_count() const noexcept;
 
@@ -33,4 +34,4 @@ private:
     int count;
 };
 
-bool operator==(List const& lhs, List const& rhs);
+bool operator==(List const & lhs, List const & rhs);
