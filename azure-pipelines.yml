@@ -1,0 +1,169 @@
+trigger:
+  - master
+
+jobs:
+  - job: Windows
+    pool:
+      vmImage: 'windows-latest'
+      workspace:
+        clean: all
+
+    strategy:
+      matrix:
+        Win32-Release:
+          buildPlatform: Win32
+          buildConfiguration: Release
+        Win32-Debug:
+          buildPlatform: Win32
+          buildConfiguration: Debug
+        x64-Release:
+          buildPlatform: x64
+          buildConfiguration: Release
+        x64-Debug:
+          buildPlatform: x64
+          buildConfiguration: Debug
+        ARM-Release:
+          buildPlatform: ARM
+          buildConfiguration: Release
+        ARM-Debug:
+          buildPlatform: ARM
+          buildConfiguration: Debug
+        ARM64-Release:
+          buildPlatform: ARM64
+          buildConfiguration: Release
+        ARM64-Debug:
+          buildPlatform: ARM64
+          buildConfiguration: Debug
+
+    steps:
+    - task: CMake@1
+      displayName: 'Generate a Project Buildsystem'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        cmakeArgs: '..\ -G "Visual Studio 16 2019" -A "$(buildPlatform)"'
+
+    - task: CMake@1
+      displayName: 'Build a Project'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        cmakeArgs: '--build . --config $(buildConfiguration) -- /m'
+
+    - task: CmdLine@2
+      condition: and(succeeded(), in(variables['buildPlatform'], 'Win32', 'x64'), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Testing'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        script: 'ctest -C $(buildConfiguration) --output-on-failure --repeat-until-fail 2'
+
+    - task: CmdLine@2
+      condition: and(succeeded(), in(variables['buildPlatform'], 'x64'), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Build binary and source package installers.'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        script: '"%ProgramFiles%\CMake\bin\cpack" -C $(buildConfiguration) -G ZIP'
+
+    - task: CopyFiles@2
+      condition: and(succeeded(), in(variables['buildPlatform'], 'x64'), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Copy CPack Files to: $(Build.ArtifactStagingDirectory)'
+      inputs:
+        SourceFolder: 'build_$(buildPlatform)_$(buildConfiguration)'
+        Contents: '*.zip'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      condition: and(succeeded(), in(variables['buildPlatform'], 'x64'), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        artifactName: '$(Agent.OS)_$(buildPlatform)_$(buildConfiguration)'
+
+  - job: Linux
+    pool:
+      vmImage: 'ubuntu-latest'
+      workspace:
+        clean: all
+
+    strategy:
+      matrix:
+        x64-Release:
+          buildPlatform: x64
+          buildConfiguration: Release
+        x64-Debug:
+          buildPlatform: x64
+          buildConfiguration: Debug
+
+    steps:
+    - task: CMake@1
+      displayName: 'Generate a Project Buildsystem'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        cmakeArgs: '..\ -G "Unix Makefiles" -DWITH_TESTS="ON"'
+
+    - task: CMake@1
+      displayName: 'Build and Install a Project'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        cmakeArgs: '--build . --config $(buildConfiguration) -- -j 2'
+
+    - task: CmdLine@2
+      condition: and(succeeded(), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Testing'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        script: 'ctest -C $(buildConfiguration) --output-on-failure --repeat-until-fail 2'
+
+    - task: CmdLine@2
+      condition: and(succeeded(), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Build binary and source package installers.'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        script: 'cpack -C $(buildConfiguration) -G ZIP'
+
+    - task: CopyFiles@2
+      condition: and(succeeded(), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Copy CPack Files to: $(Build.ArtifactStagingDirectory)'
+      inputs:
+        SourceFolder: 'build_$(buildPlatform)_$(buildConfiguration)'
+        Contents: '*.zip'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      condition: and(succeeded(), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        artifactName: '$(Agent.OS)_$(buildPlatform)_$(buildConfiguration)'
+
+
+  - job: MacOS
+    pool:
+      vmImage: 'macOS-latest'
+      workspace:
+        clean: all
+
+    strategy:
+      matrix:
+        macOS-Release:
+          buildPlatform: macOS
+          buildConfiguration: Release
+        macOS-Debug:
+          buildPlatform: macOS
+          buildConfiguration: Debug
+
+    steps:
+    - task: CMake@1
+      displayName: 'Generate a Project Buildsystem'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        cmakeArgs: '../ -G Xcode'
+
+    - task: CMake@1
+      displayName: 'Build a Project'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        cmakeArgs: '--build . --config $(buildConfiguration) -- -parallelizeTargets -jobs 2'
+
+    - task: CmdLine@2
+      condition: and(succeeded(), in(variables['buildConfiguration'], 'Release'))
+      displayName: 'Testing'
+      inputs:
+        workingDirectory: 'build_$(buildPlatform)_$(buildConfiguration)'
+        script: 'ctest -C $(buildConfiguration) --output-on-failure --repeat-until-fail 2'
