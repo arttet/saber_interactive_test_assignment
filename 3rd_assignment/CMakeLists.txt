@@ -18,3 +18,5 @@ target_link_libraries(${PROJECT_NAME}
   LINK_PUBLIC
     glm
 )
+
+install(TARGETS ${PROJECT_NAME} DESTINATION lib COMPONENT development)

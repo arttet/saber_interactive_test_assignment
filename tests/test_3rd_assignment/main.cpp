@@ -63,16 +63,16 @@ TEST_P(test_normals_t, obj_file)
     EXPECT_TRUE(ok);
 
     std::vector<glm::vec3> actual_normals(vertices.size());
-    calc_mesh_normals(actual_normals.data(), //
-                      vertices.data(),       //
-                      faces.data(),          //
-                      vertices.size(),       //
-                      faces.size());         //
+    calc_mesh_normals(actual_normals.data(),             //
+                      vertices.data(),                   //
+                      faces.data(),                      //
+                      static_cast<int>(vertices.size()), //
+                      static_cast<int>(faces.size()));   //
 }
 
 // clang-format off
 
-INSTANTIATE_TEST_CASE_P(test, test_normals_t, testing::Values(
+INSTANTIATE_TEST_SUITE_P(test, test_normals_t, testing::Values(
     "cube.obj"
 ));
 

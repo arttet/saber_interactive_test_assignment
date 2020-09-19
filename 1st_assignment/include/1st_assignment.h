@@ -1,5 +1,6 @@
 #pragma once
 
+#include <climits>
 #include <iostream>
 #include <ostream>
 #include <type_traits>

@@ -3,6 +3,7 @@
 #include <1st_assignment.h>
 
 #include <bitset>
+#include <climits>
 #include <cstdint>
 #include <sstream>
 
@@ -40,13 +41,13 @@ TEST_P(test_int8_t, bitset)
 
 // clang-format off
 
-INSTANTIATE_TEST_CASE_P(test_range, test_int32_t, testing::Range(-100, 100, 1));
-INSTANTIATE_TEST_CASE_P(test_limit_values, test_int32_t, testing::Values(
+INSTANTIATE_TEST_SUITE_P(test_range, test_int32_t, testing::Range(-100, 100, 1));
+INSTANTIATE_TEST_SUITE_P(test_limit_values, test_int32_t, testing::Values(
     std::numeric_limits<int32_t>::min(),
     std::numeric_limits<int32_t>::max()
 ));
 
-INSTANTIATE_TEST_CASE_P(test_range, test_int8_t, testing::Range(
+INSTANTIATE_TEST_SUITE_P(test_range, test_int8_t, testing::Range(
     std::numeric_limits<int8_t>::min(), std::numeric_limits<int8_t>::max(), 1));
 
 // clang-format on

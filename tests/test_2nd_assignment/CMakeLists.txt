@@ -15,3 +15,5 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER tests)
 
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+
+install(TARGETS ${PROJECT_NAME} DESTINATION tests COMPONENT tests)

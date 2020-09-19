@@ -2,6 +2,7 @@
 
 #include <2nd_assignment.h>
 
+#include <algorithm>
 #include <cstdio>
 #include <unordered_map>
 
@@ -76,7 +77,7 @@ TEST_P(test_list_t, list)
 
 // clang-format off
 
-INSTANTIATE_TEST_CASE_P(test_list, test_list_t, testing::Range(
+INSTANTIATE_TEST_SUITE_P(test_list, test_list_t, testing::Range(
     std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max(), 1));
 
 // clang-format on
