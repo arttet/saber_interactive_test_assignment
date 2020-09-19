@@ -1,29 +1,24 @@
 # Test assignment (Saber Interactive)
+[![Build Status](https://dev.azure.com/arttet/CI/_apis/build/status/1?api-version=5.1-preview.1)](https://dev.azure.com/arttet/CI/_build?definitionId=1&_a=summary)
 
 ## Requirements
 
-* CMake 3.10+
+* CMake 3.11.4+
 * GLM
 * C++ 11
-* [Google Test]
+* Google Test
 
 ## Installation
 
-You can build and run this project directly on your system.
+You could build and run this project directly on your system.
 
 * Download the source from GitHub with:
 
 ```sh
-git clone --recursive https://github.com/arttet/saber_interactive_test_assignment
-```
-
-Alternatively, if you already have the existing source tree use:
-```sh
 git clone https://github.com/arttet/saber_interactive_test_assignment
-git submodule update --init
 ```
 
-## Building
+## Build
 
 * Run the following commands:
 
@@ -31,14 +26,14 @@ git submodule update --init
 cd saber_interactive_test_assignment
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release ../
-cmake --build .
+cmake ../
+cmake --build . --config Release
 ```
 
-## Testing
+## Test
 
 ```sh
-cmake -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=1 ../
-cmake --build .
+cmake -DWITH_TESTS=1 ../
+cmake --build . --config Release
 ctest -C Release --output-on-failure --repeat-until-fail 2
 ```
