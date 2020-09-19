@@ -1,5 +1,5 @@
 # Test assignment (Saber Interactive)
-[![Build Status](https://dev.azure.com/arttet/CI/_apis/build/status/1?api-version=5.1-preview.1)](https://dev.azure.com/arttet/CI/_build?definitionId=1&_a=summary)
+[![Build Status](https://dev.azure.com/arttet/saber_interactive_test_assignment/_apis/build/status/arttet.saber_interactive_test_assignment?branchName=master)](https://dev.azure.com/arttet/saber_interactive_test_assignment/_build/latest?definitionId=5&branchName=master)
 
 ## Requirements
 
